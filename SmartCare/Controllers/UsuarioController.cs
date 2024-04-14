@@ -19,6 +19,26 @@ namespace SmartCare.Controllers
         }
 
 
+        [HttpPost("login")]
+        public IActionResult ValidaLogin(string email, string senha)
+        {
+            bool emailExists = _context.USUARIO.Any(d => d.email == email);
+            bool passwordMatches = _context.USUARIO.Any(d => d.email == email && d.senha == senha);
+
+            if (!emailExists)
+            {
+                return NotFound("Não existe usuario com o email especificado.");
+            }
+            else if (!passwordMatches)
+            {
+                return Unauthorized("Senha incorreta.");
+            }
+
+            return Ok("Usuário autenticado com sucesso.");
+        }
+
+
+
         [HttpGet]
         public IActionResult ListarUsuarios()
         {
