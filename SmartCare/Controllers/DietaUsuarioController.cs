@@ -5,7 +5,7 @@ using SmartCare.Models;
 
 namespace SmartCare.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/dietausuario")]
     [ApiController]
     public class DietaUsuarioController : ControllerBase
     {
