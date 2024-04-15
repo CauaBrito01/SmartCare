@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Options;
 using SmartCare.Connection;
 using Microsoft.EntityFrameworkCore;
+using SmartCare.Interfaces;
+using SmartCare.Repositories;
 
 
 namespace SmartCare
@@ -14,6 +16,10 @@ namespace SmartCare
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IDietaRepository, DietaRepository>();
+            builder.Services.AddScoped<IProfissionalRepository, ProfissionalRepository>();
+            builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

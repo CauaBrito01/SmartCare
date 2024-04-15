@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartCare.Connection;
+using SmartCare.Interfaces;
 using SmartCare.Models;
 
 
@@ -9,21 +10,20 @@ namespace SmartCare.Controllers
     [ApiController]
     public class DietaUsuarioController : ControllerBase
     {
-        private readonly ConnectionDb _context;
+        private readonly IDietaRepository _repository;
 
-        public DietaUsuarioController(ConnectionDb context)
+        public DietaUsuarioController(IDietaRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
-
 
         [HttpGet]
         public IActionResult ListarDietas()
         {
-            var dietas = _context.DIETA_USUARIO.ToList();
-            if (dietas.Count == 0 )
+            var dietas = _repository.ListarDietas();
+            if (!dietas.Any())
             {
-                return NotFound("Sem diestas disponiveis");
+                return NotFound("Sem dietas disponíveis");
             }
 
             return Ok(dietas);
@@ -32,67 +32,45 @@ namespace SmartCare.Controllers
         [HttpGet("{id}")]
         public IActionResult ListaDieta(int id)
         {
-            var Dieta = _context.DIETA_USUARIO.Find(id);
-            if (Dieta == null)
+            var dieta = _repository.ListaDieta(id);
+            if (dieta == null)
             {
-                return NotFound("Diesta não encontrada");
+                return NotFound("Dieta não encontrada");
             }
 
-            return Ok(Dieta);
+            return Ok(dieta);
         }
-
 
         [HttpPost]
         public IActionResult GravarDieta(DietaUsuarioModel model)
         {
-            
-            _context.Add(model);
-            _context.SaveChanges();
+            _repository.GravarDieta(model);
             return Ok("Dieta Criada");
-            
-            
         }
 
         [HttpPut]
         public IActionResult EditarDieta(DietaUsuarioModel model)
         {
-            if (model == null || model.ID_DIETA == 0){
-                if (model == null)
-                {
-                    return BadRequest("Model Data não e valide");
-                }
-
-                else if (model.ID_DIETA == 0)
-                {
-                    return BadRequest($" Id {model.ID_DIETA} não é um id valido");
-                }
+            if (model == null)
+            {
+                return BadRequest("Modelo de dados inválido");
             }
-            var dieta = _context.DIETA_USUARIO.Find(model.ID_DIETA);
+
+            var dieta = _repository.ListaDieta(model.ID_DIETA);
             if (dieta == null)
             {
-                return NotFound($" Dieta com o Id {model.ID_DIETA} não encontrada");
+                return NotFound($"Dieta com o Id {model.ID_DIETA} não encontrada");
             }
-            dieta.TITULO_DIETA = model.TITULO_DIETA;
-            dieta.DESCRICAO_DIETA = model.DESCRICAO_DIETA;
-            dieta.HORA_DIETA=model.HORA_DIETA;
-            dieta.ID_USUARIO = model.ID_USUARIO;
-            
-            _context.SaveChanges();
-            
+
+            _repository.EditarDieta(model);
             return Ok("Dieta Editada");
         }
 
-        [HttpDelete]
-        public IActionResult DeletarDieta(int id) 
+        [HttpDelete("{id}")]
+        public IActionResult DeletarDieta(int id)
         {
-            var dieta = _context.DIETA_USUARIO.Find(id);
-            if (dieta == null)
-            {
-                return NotFound($"Dieta não encontrada com o id {id}");
-            }
-            _context.DIETA_USUARIO.Remove(dieta);
-            _context.SaveChanges();
-            return Ok("Produto deletado");
+            _repository.DeletarDieta(id);
+            return Ok("Dieta deletada");
         }
     }
 }
