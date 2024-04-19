@@ -12,8 +12,8 @@ namespace SmartCare.Models
         public string CPF_USUARIO { get; set; }
         public int ID_ELENCO { get; set; }
         public decimal IND_VIGENTE { get; set; }
-        public string? email { get; set; }
-        public string? senha { get; set; }
+        public string? EMAIL_USUARIO { get; set; }
+        public string? SENHA_USUARIO { get; set; }
     }
 }
 

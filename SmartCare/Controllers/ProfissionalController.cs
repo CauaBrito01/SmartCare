@@ -107,8 +107,8 @@ namespace SmartCare.Controllers
             usuario.CPF_USUARIO = model.CPF_USUARIO;
             usuario.ID_ELENCO = model.ID_ELENCO;
             usuario.IND_VIGENTE = model.IND_VIGENTE;
-            usuario.email = model.email;
-            usuario.senha = model.senha;
+            usuario.EMAIL_USUARIO = model.EMAIL_USUARIO;
+            usuario.SENHA_USUARIO = model.SENHA_USUARIO;
 
             _context.SaveChanges();
 

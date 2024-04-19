@@ -11,6 +11,8 @@ namespace SmartCare.Connection
         public DbSet<DietaUsuarioModel> DIETA_USUARIO { get; set;}
         public DbSet<ProfissionalModel> PROFISSIONAL { get; set; }
         public DbSet<UsuarioModel> USUARIO { get; set; }
+        public DbSet<CalendarioModel> CALENDARIO { get; set; }
+
 
     }
 }
