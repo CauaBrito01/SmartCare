@@ -52,7 +52,7 @@ namespace SmartCare.Controllers
         //INTERAÇÕES DO PROFISSIONAL COM O USUARIO
 
         [HttpGet]
-        public IActionResult ListarUsuarios()
+        public IActionResult List()
         {
             var usuarios = _context.USUARIO.ToList();
             if (usuarios.Count == 0)
@@ -64,7 +64,7 @@ namespace SmartCare.Controllers
         }
 
         [HttpGet("usuario/{id}")]
-        public IActionResult ListaUsuario(int id)
+        public IActionResult Find(int id)
         {
             var usuario = _context.USUARIO.Find(id);
             if (usuario == null)
@@ -75,7 +75,7 @@ namespace SmartCare.Controllers
         }
 
         [HttpPost]
-        public IActionResult GravarUsuario(UsuarioModel model)
+        public IActionResult Add(UsuarioModel model)
         {
             _context.Add(model);
             _context.SaveChanges();
@@ -83,7 +83,7 @@ namespace SmartCare.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditarUsuario(UsuarioModel model)
+        public IActionResult Put(UsuarioModel model)
         {
             if (model == null || model.ID_USUARIO == 0)
             {
@@ -116,7 +116,7 @@ namespace SmartCare.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeletarUsuario(int id)
+        public IActionResult Delete(int id)
         {
             try
             {

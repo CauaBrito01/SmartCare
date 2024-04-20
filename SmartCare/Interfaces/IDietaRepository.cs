@@ -4,11 +4,11 @@ namespace SmartCare.Interfaces
 {
     public interface IDietaRepository
     {
-        IEnumerable<DietaUsuarioModel> ListarDietas();
-        DietaUsuarioModel ListaDieta(int id);
-        void GravarDieta(DietaUsuarioModel dieta);
-        void EditarDieta(DietaUsuarioModel dieta);
-        void DeletarDieta(int id);
+        IEnumerable<DietaUsuarioModel> List();
+        DietaUsuarioModel Find(int id);
+        void Add(DietaUsuarioModel dieta);
+        void Put(DietaUsuarioModel dieta);
+        void Delete(int id);
     }
 }
 

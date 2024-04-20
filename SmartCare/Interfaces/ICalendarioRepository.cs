@@ -1,13 +1,13 @@
-﻿//using SmartCare.Models;
+﻿using SmartCare.Models;
 
-//namespace SmartCare.Interfaces
-//{
-//    public class ICalendarioRepository
-//    {
-//        IEnumerable<CalendarioModel> ListarCalendarios();
-//        CalendarioModel ListaCalendario(int id);
-//        void GravarCalendario(CalendarioModel dieta);
-//        void EditarCalendario(CalendarioModel dieta);
-//        void DeletarCalendario1(int id);
-//    }
-//}
+namespace SmartCare.Interfaces
+{
+    public interface ICalendarioRepository
+    {
+        IEnumerable<CalendarioModel> List();
+        CalendarioModel Find(int id);
+        void Add(CalendarioModel dieta);
+        void Put(CalendarioModel dieta);
+        void Delete(int id);
+    }
+}

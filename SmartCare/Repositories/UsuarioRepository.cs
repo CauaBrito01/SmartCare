@@ -14,23 +14,23 @@ namespace SmartCare.Repositories
             _context = context;
         }
 
-        public List<UsuarioModel> ListarUsuarios()
+        public List<UsuarioModel> List()
         {
             return _context.USUARIO.ToList();
         }
 
-        public UsuarioModel ListaUsuario(int id)
+        public UsuarioModel Find(int id)
         {
             return _context.USUARIO.Find(id);
         }
 
-        public void GravarUsuario(UsuarioModel usuario)
+        public void Add(UsuarioModel usuario)
         {
             _context.USUARIO.Add(usuario);
             _context.SaveChanges();
         }
 
-        public void EditarUsuario(UsuarioModel usuario)
+        public void Put(UsuarioModel usuario)
         {
             // Busca a entidade no cache local
             var existingUsuario = _context.USUARIO.Local.FirstOrDefault(d => d.ID_USUARIO == usuario.ID_USUARIO);
@@ -49,7 +49,7 @@ namespace SmartCare.Repositories
             _context.SaveChanges();
         }
 
-        public void DeletarUsuario(int id)
+        public void Delete(int id)
         {
             var usuario = _context.USUARIO.Find(id);
             if (usuario != null)

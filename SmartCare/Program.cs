@@ -19,6 +19,7 @@ namespace SmartCare
             builder.Services.AddScoped<IDietaRepository, DietaRepository>();
             builder.Services.AddScoped<IProfissionalRepository, ProfissionalRepository>();
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            builder.Services.AddScoped<ICalendarioRepository, CalendarioRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

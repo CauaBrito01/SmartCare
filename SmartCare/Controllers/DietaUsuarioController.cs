@@ -20,7 +20,7 @@ namespace SmartCare.Controllers
         [HttpGet]
         public IActionResult ListarDietas()
         {
-            var dietas = _repository.ListarDietas();
+            var dietas = _repository.List();
             if (!dietas.Any())
             {
                 return NotFound("Sem dietas disponíveis");
@@ -30,9 +30,9 @@ namespace SmartCare.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult ListaDieta(int id)
+        public IActionResult Find(int id)
         {
-            var dieta = _repository.ListaDieta(id);
+            var dieta = _repository.Find(id);
             if (dieta == null)
             {
                 return NotFound("Dieta não encontrada");
@@ -42,34 +42,34 @@ namespace SmartCare.Controllers
         }
 
         [HttpPost]
-        public IActionResult GravarDieta(DietaUsuarioModel model)
+        public IActionResult Add(DietaUsuarioModel model)
         {
-            _repository.GravarDieta(model);
+            _repository.Add(model);
             return Ok("Dieta Criada");
         }
 
         [HttpPut]
-        public IActionResult EditarDieta(DietaUsuarioModel model)
+        public IActionResult Put(DietaUsuarioModel model)
         {
             if (model == null)
             {
                 return BadRequest("Modelo de dados inválido");
             }
 
-            var dieta = _repository.ListaDieta(model.ID_DIETA);
+            var dieta = _repository.Find(model.ID_DIETA);
             if (dieta == null)
             {
                 return NotFound($"Dieta com o Id {model.ID_DIETA} não encontrada");
             }
 
-            _repository.EditarDieta(model);
+            _repository.Put(model);
             return Ok("Dieta Editada");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletarDieta(int id)
+        public IActionResult Delete(int id)
         {
-            _repository.DeletarDieta(id);
+            _repository.Delete(id);
             return Ok("Dieta deletada");
         }
     }

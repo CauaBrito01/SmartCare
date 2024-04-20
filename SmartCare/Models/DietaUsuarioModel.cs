@@ -12,7 +12,7 @@ namespace SmartCare.Models
         [Required]
         public string DESCRICAO_DIETA { get; set; }
         [Required]
-        public DateTime HORA_DIETA { get; set; }
+        public TimeSpan HORA_DIETA { get; set; }
         //teste
     }
 }

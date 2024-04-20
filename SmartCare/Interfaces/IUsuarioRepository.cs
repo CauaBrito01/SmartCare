@@ -4,11 +4,11 @@ namespace SmartCare.Interfaces
 {
     public interface IUsuarioRepository
     {
-        List<UsuarioModel> ListarUsuarios();
-        UsuarioModel ListaUsuario(int id);
-        void GravarUsuario(UsuarioModel usuario);
-        void EditarUsuario(UsuarioModel usuario);
-        void DeletarUsuario(int id);
+        List<UsuarioModel> List();
+        UsuarioModel Find(int id);
+        void Add(UsuarioModel usuario);
+        void Put(UsuarioModel usuario);
+        void Delete(int id);
     }
 
 }
