@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartCare.Connection;
 using SmartCare.Models;
+using SmartCare.Services;
 
 namespace SmartCare.Controllers
 {
@@ -19,26 +21,31 @@ namespace SmartCare.Controllers
         }
 
 
+
         [HttpPost("login")]
         public IActionResult ValidaLogin(string email, string senha)
         {
-            bool emailExists = _context.USUARIO.Any(d => d.EMAIL_USUARIO == email);
-            bool passwordMatches = _context.USUARIO.Any(d => d.EMAIL_USUARIO == email && d.SENHA_USUARIO == senha);
+            // Verifica se existe um usuário com o email especificado
+            var usuario = _context.USUARIO.FirstOrDefault(d => d.EMAIL_USUARIO == email);
 
-            if (!emailExists)
+            if (usuario == null)
             {
                 return NotFound("Não existe usuario com o email especificado.");
             }
-            else if (!passwordMatches)
+
+            // Verifica se a senha corresponde
+            if (usuario.SENHA_USUARIO != senha)
             {
                 return Unauthorized("Senha incorreta.");
             }
 
-            return Ok("Usuário autenticado com sucesso.");
+            // Gera o token utilizando o usuário recuperado do banco de dados
+            var token = TokenService.GenerateToken(usuario);
+            return Ok(token);
         }
 
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult List()
         {
@@ -51,6 +58,7 @@ namespace SmartCare.Controllers
             return Ok(usuarios);
         }
 
+        [Authorize]
         [HttpGet("usuario/{id}")]
         public IActionResult Find(int id)
         {
@@ -62,6 +70,7 @@ namespace SmartCare.Controllers
             return Ok(usuario);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(UsuarioModel model)
         {
@@ -70,6 +79,7 @@ namespace SmartCare.Controllers
             return Ok("Usuario Criado");
         }
 
+        [Authorize]
         [HttpPut]
         public IActionResult Put(UsuarioModel model)
         {
@@ -103,6 +113,7 @@ namespace SmartCare.Controllers
             return Ok("Usuario Editado");
         }
 
+        [Authorize]
         [HttpDelete]
         public IActionResult Delete(int id)
         {

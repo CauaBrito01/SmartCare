@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartCare.Connection;
@@ -18,7 +19,7 @@ namespace SmartCare.Controllers
             _context = context;
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult ListaProfissional(int id)
         {
@@ -31,26 +32,27 @@ namespace SmartCare.Controllers
         }
 
 
-        [HttpPost("login")]
-        public IActionResult ValidaLogin(string email, string senha)
-        {
-            bool emailExists = _context.PROFISSIONAL.Any(d => d.email == email);
-            bool passwordMatches = _context.PROFISSIONAL.Any(d => d.email == email && d.senha == senha);
+        //[HttpPost("login")]
+        //public IActionResult ValidaLogin(string email, string senha)
+        //{
+        //    bool emailExists = _context.PROFISSIONAL.Any(d => d.email == email);
+        //    bool passwordMatches = _context.PROFISSIONAL.Any(d => d.email == email && d.senha == senha);
 
-            if (!emailExists)
-            {
-                return NotFound("Não existe profissional com o email especificado.");
-            }
-            else if (!passwordMatches)
-            {
-                return Unauthorized("Senha incorreta.");
-            }
+        //    if (!emailExists)
+        //    {
+        //        return NotFound("Não existe profissional com o email especificado.");
+        //    }
+        //    else if (!passwordMatches)
+        //    {
+        //        return Unauthorized("Senha incorreta.");
+        //    }
 
-            return Ok("Usuário autenticado com sucesso.");
-        }
+        //    return Ok("Usuário autenticado com sucesso.");
+        //}
 
         //INTERAÇÕES DO PROFISSIONAL COM O USUARIO
 
+        [Authorize]
         [HttpGet]
         public IActionResult List()
         {
@@ -62,7 +64,7 @@ namespace SmartCare.Controllers
 
             return Ok(usuarios);
         }
-
+        [Authorize]
         [HttpGet("usuario/{id}")]
         public IActionResult Find(int id)
         {
@@ -73,7 +75,7 @@ namespace SmartCare.Controllers
             }
             return Ok(usuario);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Add(UsuarioModel model)
         {
@@ -82,26 +84,54 @@ namespace SmartCare.Controllers
             return Ok("Usuario Criado");
         }
 
-        [HttpPut]
-        public IActionResult Put(UsuarioModel model)
-        {
-            if (model == null || model.ID_USUARIO == 0)
-            {
-                if (model == null)
-                {
-                    return BadRequest("Model Data não e valida");
-                }
+        //[HttpPut]
+        //public IActionResult Put(UsuarioModel model)
+        //{
+        //    if (model == null || model.ID_USUARIO == 0)
+        //    {
+        //        if (model == null)
+        //        {
+        //            return BadRequest("Model Data não e valida");
+        //        }
 
-                else if (model.ID_USUARIO == 0)
-                {
-                    return BadRequest($" Id {model.ID_USUARIO} não é um id valido");
-                }
+        //        else if (model.ID_USUARIO == 0)
+        //        {
+        //            return BadRequest($" Id {model.ID_USUARIO} não é um id valido");
+        //        }
+        //    }
+        //    var usuario = _context.USUARIO.Find(model.ID_USUARIO);
+        //    if (usuario == null)
+        //    {
+        //        return NotFound($" Usuario com o Id {model.ID_USUARIO} não encontrado");
+        //    }
+        //    usuario.NOME_USUARIO = model.NOME_USUARIO;
+        //    //usuario.DAT_NASCIMENTO = model.DAT_NASCIMENTO;
+        //    usuario.CPF_USUARIO = model.CPF_USUARIO;
+        //    usuario.ID_ELENCO = model.ID_ELENCO;
+        //    usuario.IND_VIGENTE = model.IND_VIGENTE;
+        //    usuario.EMAIL_USUARIO = model.EMAIL_USUARIO;
+        //    usuario.SENHA_USUARIO = model.SENHA_USUARIO;
+
+        //    _context.SaveChanges();
+
+        //    return Ok("Usuario Editado");
+        //}
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] UsuarioModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Dados do modelo não são válidos");
             }
-            var usuario = _context.USUARIO.Find(model.ID_USUARIO);
+
+            var usuario = _context.USUARIO.Find(id);
             if (usuario == null)
             {
-                return NotFound($" Usuario com o Id {model.ID_USUARIO} não encontrado");
+                return NotFound($"Usuário com o ID {id} não encontrado");
             }
+
             usuario.NOME_USUARIO = model.NOME_USUARIO;
             //usuario.DAT_NASCIMENTO = model.DAT_NASCIMENTO;
             usuario.CPF_USUARIO = model.CPF_USUARIO;
@@ -112,11 +142,12 @@ namespace SmartCare.Controllers
 
             _context.SaveChanges();
 
-            return Ok("Usuario Editado");
+            return Ok("Usuário editado");
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [Authorize]
+        [HttpDelete("{id}")]
+         public IActionResult Delete(int id)
         {
             try
             {

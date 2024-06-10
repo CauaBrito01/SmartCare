@@ -54,6 +54,7 @@ namespace SmartCare.Repositories
 
 
 
+
         public void Delete(int id)
         {
             var dieta = _context.DIETA_USUARIO.Find(id);

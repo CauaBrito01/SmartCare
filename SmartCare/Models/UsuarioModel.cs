@@ -6,7 +6,7 @@ namespace SmartCare.Models
     public class UsuarioModel
     {
         [Key]
-        public int ID_USUARIO { get; set; }
+        public int ID_USUARIO { get; private set; }
         public string NOME_USUARIO { get; set; }
         public DateTime DAT_NASCIMENTO { get; set; }
         public string CPF_USUARIO { get; set; }

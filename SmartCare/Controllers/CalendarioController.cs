@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartCare.Interfaces;
 using SmartCare.Models;
@@ -15,7 +16,7 @@ namespace SmartCare.Controllers
         {
             _repository = repository;
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult List()
         {
@@ -27,7 +28,7 @@ namespace SmartCare.Controllers
 
             return Ok(calendario);
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Find(int id)
         {
@@ -39,14 +40,14 @@ namespace SmartCare.Controllers
 
             return Ok(calendario);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Add(CalendarioModel model)
         {
             _repository.Add(model);
             return Ok("Atividade agendada no calendario");
         }
-
+        [Authorize]
         [HttpPut]
         public IActionResult Put(CalendarioModel model)
         {
@@ -64,7 +65,7 @@ namespace SmartCare.Controllers
             _repository.Put(model);
             return Ok("Atividade Editada");
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

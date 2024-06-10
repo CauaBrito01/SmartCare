@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartCare.Connection;
 using SmartCare.Interfaces;
 using SmartCare.Models;
@@ -16,7 +17,7 @@ namespace SmartCare.Controllers
         {
             _repository = repository;
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult ListarDietas()
         {
@@ -28,7 +29,7 @@ namespace SmartCare.Controllers
 
             return Ok(dietas);
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Find(int id)
         {
@@ -41,6 +42,7 @@ namespace SmartCare.Controllers
             return Ok(dieta);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(DietaUsuarioModel model)
         {
@@ -48,24 +50,35 @@ namespace SmartCare.Controllers
             return Ok("Dieta Criada");
         }
 
-        [HttpPut]
-        public IActionResult Put(DietaUsuarioModel model)
+        [Authorize]
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] DietaUsuarioModel model)
         {
-            if (model == null)
-            {
-                return BadRequest("Modelo de dados inválido");
-            }
-
-            var dieta = _repository.Find(model.ID_DIETA);
+            var dieta = _repository.Find(id);
             if (dieta == null)
             {
-                return NotFound($"Dieta com o Id {model.ID_DIETA} não encontrada");
+                return NotFound($"Dieta com o ID {id} não encontrada");
             }
 
-            _repository.Put(model);
-            return Ok("Dieta Editada");
+            // Atualiza os atributos da dieta com base nos dados recebidos no corpo da solicitação
+            if (model.TITULO_DIETA != null)
+            {
+                dieta.TITULO_DIETA = model.TITULO_DIETA;
+            }
+            if (model.DESCRICAO_DIETA != null)
+            {
+                dieta.DESCRICAO_DIETA = model.DESCRICAO_DIETA;
+            }    
+            if (model.HORA_DIETA != null)
+            {
+                dieta.HORA_DIETA = model.HORA_DIETA;
+            }
+
+            _repository.Put(dieta);
+            return Ok("Dieta editada");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
