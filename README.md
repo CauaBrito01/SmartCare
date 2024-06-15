@@ -18,7 +18,7 @@ Bem-vindo ao repositório do SmartCare, uma solução inovadora desenvolvida em 
 
 ## Documentação
 
-[Documentação]([https://link-da-documentação](https://docs.google.com/document/d/1dhPcO2FwE8v6KQKwtAEwKLLtUal8vrVaqSLNrdi0JCU/edit?usp=sharing))
+Documentação: https://docs.google.com/document/d/1dhPcO2FwE8v6KQKwtAEwKLLtUal8vrVaqSLNrdi0JCU/edit?usp=sharing
 
 
 ## Tecnologias
