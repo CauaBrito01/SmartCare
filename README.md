@@ -1,5 +1,5 @@
 
-# SmartCare API
+# SmartCare 
 
 Bem-vindo ao repositório do SmartCare, uma solução inovadora desenvolvida em C# e .NET, projetada para otimizar o gerenciamento de dietas, treinos e registros médicos de atletas. Esta API,atende às necessidades de atletas, médicos e treinadores, visando aprimorar o desempenho e o bem-estar dos envolvidos atraves do acompanhamento de seus registros.
 
